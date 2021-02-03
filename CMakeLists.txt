@@ -7,27 +7,23 @@ if(CXX)
     enable_language(CXX)
 endif()
 
-set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR})
+SET(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR})
 
-find_package(PythonLibs 3.6 REQUIRED)
-find_package(Boost COMPONENTS python REQUIRED)
-find_package(GUROBI REQUIRED)
-find_package(glpk REQUIRED)
+FIND_PACKAGE(PythonLibs 3.6 REQUIRED)
+FIND_PACKAGE(Boost COMPONENTS python REQUIRED)
+FIND_PACKAGE(GUROBI REQUIRED)
+FIND_PACKAGE(glpk REQUIRED)
 
-set(CMAKE_SHARED_MODULE_PREFIX "")
+SET(CMAKE_SHARED_MODULE_PREFIX "")
 
-include_directories(${GUROBI_INCLUDE_DIRS})
-include_directories(${glpk_INCLUDE_DIRS})
+INCLUDE_DIRECTORIES(${GUROBI_INCLUDE_DIRS})
+INCLUDE_DIRECTORIES(${glpk_INCLUDE_DIRS})
 
-set(GUROBI_LIBRARIES "${GUROBI_CXX_LIBRARY};${GUROBI_LIBRARY}")
+# Create the lib
+ADD_LIBRARY(qpp MODULE src/qpp.cpp)
 
-# create the lib
-#add_executable(qpp qpp.cpp)
-add_library(qpp MODULE qpp.cpp)
-
-
-#~ target_link_libraries(solveLP ${PYTHON_LIBRARIES})
-target_link_libraries(qpp ${PYTHON_LIBRARIES} ${GUROBI_LIBRARIES} ${Boost_LIBRARIES} ${glpk_LIBRARIES})
-target_include_directories(qpp PRIVATE ${PYTHON_INCLUDE_DIRS})
+# Target_link_libraries(solveLP ${PYTHON_LIBRARIES})
+TARGET_LINK_LIBRARIES(qpp ${PYTHON_LIBRARIES} ${GUROBI_LIBRARIES} ${Boost_LIBRARIES} ${glpk_LIBRARIES})
+TARGET_INCLUDE_DIRECTORIES(qpp PRIVATE ${PYTHON_INCLUDE_DIRS})
 
 

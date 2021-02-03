@@ -1,11 +1,11 @@
 #include <boost/python.hpp>
 #include <boost/python/list.hpp>
 #include <boost/python/extract.hpp>
-#include "gurobi_c++.h"
 #include <glpk.h>
 #include <vector>
 #include <algorithm>
 #include <cstdlib>
+#include "gurobi_c++.h"
 
 using namespace std;
 using namespace boost::python;
@@ -26,7 +26,7 @@ typedef struct ResultData
 int nonZeroCnt(double* A, int len)
 {
     int cnt = 0;
-    for (int j = 0; j < len; j ++)
+    for (int j = 0; j < len; j++)
         if (A[j] != 0.0)  cnt++;
 
     return cnt;
@@ -100,8 +100,7 @@ resultData solveglpk (list& c_, list& A_, list& b_, list& E_, list& e_)
     if (CE.size() != 0) xsize = CE[0].size();
     if (CI.size() != 0) xsize = CI[0].size();
 
-    for (int i = 0; i < numIneqConstraints; ++i, ++idrow)
-    {
+    for (int i = 0; i < numIneqConstraints; ++i, ++idrow){
         glp_set_row_bnds(lp, idrow, GLP_UP, 0.0, ci0[i]);
         for (int j = 0; j < xsize; ++j, ++idcol)
         {
@@ -113,6 +112,7 @@ resultData solveglpk (list& c_, list& A_, list& b_, list& E_, list& e_)
         }
         idcol = 1;
     }
+    
     for (int i = 0; i < numEqConstraints; ++i, ++idrow)
     {
         glp_set_row_bnds(lp, idrow, GLP_FX, ce0[i], ce0[i]);
